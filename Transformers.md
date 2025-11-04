@@ -39,11 +39,12 @@ Encoder converts our input sequence x into vectors z, the decoder converts our v
 Each encoder/decoder consists of stacked self attention layers and fully connected layers.
 
 Let's decode all of the components of this diagram
-![[attachment/Transformers/file-.png]]
+!(attachment/Transformers/file-.png)
 
 #### Encoder
 
-![[attachment/Transformers/file- 1.png]]
+!(attachment/Transformers/file- 1.png)
+
 ##### Input Embeddings
 Converting our input tokens to *embeddings.*
 
@@ -64,7 +65,7 @@ pos = position of the word in our sentence
 
 > Our even numbered indices are calculated by a sine function and odd numbered indices are calculated with a cosine function
 
-![[attachment/Transformers/file- 2.png]]
+!(attachment/Transformers/file- 2.png)
 
 for example, the word album in our sentence  "Kanye has delayed his album for the fifth time" would have:
 
@@ -101,9 +102,10 @@ Finally, we multiply the softmax weights by V to get the self-attention output:
 $$ 
 \text{Attention}(Q, K, V) = \text{softmax}\Bigg(\frac{Q K^\top}{\sqrt{d_k}}\Bigg) V  
 $$
+
 There's also a dot-product attention which doesn't use scaling which makes it faster and uses less space, and an additive addition attention that feeds the value through a one hidden layer network.
 
-![[attachment/Transformers/file- 3.png]]
+!(attachment/Transformers/file- 3.png)
 
 **Self-attention:** Each word looks at itself and its neighbors to understand the sentence, like **a student reviewing their own notes and highlighting connections between topics**.
 
@@ -116,7 +118,8 @@ In multi-head attention, the process starts by deciding how many heads the model
 
 Every head then performs self-attention independently on its own Q, K, and V, learning to focus on different parts or relationships within the sequence. Once all heads have produced their output context vectors, those outputs are concatenated into a single matrix. Finally, this combined result is passed through another linear layer that mixes information from all heads into one unified representation.
 
-![[attachment/Transformers/file- 4.png]]
+!(attachment/Transformers/file- 4.png)
+
 ##### Feed-forward Layer
 After the attention step, every token now carries information about how it relates to other tokens in the sequence. But attention mostly handles _relationships between tokens_. What it doesn’t do is refine each token’s internal meaning. That’s where the **feedforward layer** comes in.
 
