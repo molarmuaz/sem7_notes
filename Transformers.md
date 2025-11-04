@@ -43,7 +43,7 @@ Let's decode all of the components of this diagram
 
 #### Encoder
 
-!(attachment/Transformers/file- 1.png)
+![](attachment/Transformers/file- 1.png)
 
 ##### Input Embeddings
 Converting our input tokens to *embeddings.*
@@ -58,14 +58,17 @@ Since we are not using any **recurrence** or **convolution** we need some way to
 For this we use positional encoding to assign a unique representation to each token with respect to their location in a sequence. *The size of these positional embeddings is the **same** as the vector embeddings of our tokens*
 
 ###### Formula
-%% Let's say our model takes vector embeddings of size 6. %%
+Let's say our model takes vector embeddings of size 6. 
+
 d_model = dimension of vector embedding,
+
 i = index within the vector
+
 pos = position of the word in our sentence
 
 > Our even numbered indices are calculated by a sine function and odd numbered indices are calculated with a cosine function
 
-!(attachment/Transformers/file- 2.png)
+![](attachment/Transformers/file- 2.png)
 
 for example, the word album in our sentence  "Kanye has delayed his album for the fifth time" would have:
 
@@ -75,21 +78,27 @@ d_model = 6 (as mentioned above)
 our i goes from 0 to d_model/2 - 1, since they are divided between sine and cosine pairs, so run 0, 1, 2 between both
 
 i = 0:
-	PE(4,0) = sin(4/1) ≈ −0.**7568**
-	PE(4,1) = cos(4/1) ≈ −0.6536
+
+PE(4,0) = sin(4/1) ≈ −0.**7568**
+PE(4,1) = cos(4/1) ≈ −0.6536
+
 i = 1:
-	PE(4,2) = sin(4/10000^2/6) ≈ 0.1845
-	PE(4,3)=cos(4/21.5443) ≈ 0.9827
+
+PE(4,2) = sin(4/10000^2/6) ≈ 0.1845
+PE(4,3)=cos(4/21.5443) ≈ 0.9827
+
 i = 2:
-	PE(4,4)=sin(4/464.159) ≈ 0.008618
-	PE(4,5)=cos(4/464.159) ≈ 0.99996
+
+PE(4,4)=sin(4/464.159) ≈ 0.008618
+PE(4,5)=cos(4/464.159) ≈ 0.99996
+
 So, the word 'album' would have a positional encoding of [−0.7568,−0.6536,0.1845,0.9827,0.008618,0.99996]
 
 ##### Attention Mechanism
 With this we can assign different attention scores to different tokens to so we can:
-	Give more importance to relevant information,
-	Ignore irrelevant information,
-	Effectively capture long-range dependencies
+- Give more importance to relevant information,
+- Ignore irrelevant information,
+- Effectively capture long-range dependencies
 
 Self-attention takes **Q (queries), K (keys), and V (values)**. Q is compared to K to see how important each word is to every other word. Then we do a **weighted sum of the V’s**.
 
@@ -105,7 +114,7 @@ $$
 
 There's also a dot-product attention which doesn't use scaling which makes it faster and uses less space, and an additive addition attention that feeds the value through a one hidden layer network.
 
-!(attachment/Transformers/file- 3.png)
+![](attachment/Transformers/file- 3.png)
 
 **Self-attention:** Each word looks at itself and its neighbors to understand the sentence, like **a student reviewing their own notes and highlighting connections between topics**.
 
@@ -118,7 +127,7 @@ In multi-head attention, the process starts by deciding how many heads the model
 
 Every head then performs self-attention independently on its own Q, K, and V, learning to focus on different parts or relationships within the sequence. Once all heads have produced their output context vectors, those outputs are concatenated into a single matrix. Finally, this combined result is passed through another linear layer that mixes information from all heads into one unified representation.
 
-!(attachment/Transformers/file- 4.png)
+![](attachment/Transformers/file- 4.png)
 
 ##### Feed-forward Layer
 After the attention step, every token now carries information about how it relates to other tokens in the sequence. But attention mostly handles _relationships between tokens_. What it doesn’t do is refine each token’s internal meaning. That’s where the **feedforward layer** comes in.
